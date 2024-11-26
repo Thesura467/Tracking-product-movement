@@ -1,0 +1,55 @@
+#include <stdio.h>
+                printf("Expected Delivery Date: %d-%02d-%02d ", tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday + days);
+                printf("Working Hours: 8:00 AM to 5:00 PM\n");
+            }
+            return;
+        }
+    }
+
+    // Product with the given ID not found
+    printf("Product with ID '%s' not found.\n", product_id);
+}
+
+int main() {
+    // Define warehouse locations
+    struct Warehouse warehouses[4] = {
+        {"Warehouse A", "Location A"},
+        {"Warehouse B", "Location B"},
+        {"Warehouse C", "Location C"},
+        {"Warehouse D", "Location D"}
+    };
+
+    // Define an array to store products
+    struct Product products[MAX_PRODUCTS];
+    int num_products = 0;
+
+    int choice;
+
+    do {
+        printf("\n1. Add Product\n");
+        printf("2. Track Product Movement\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                add_product(products, &num_products);
+                break;
+            case 2: {
+                char product_id[20];
+                printf("Enter product ID to track: ");
+                scanf("%s", product_id);
+                track_product_movement(products, num_products, product_id, warehouses);
+                break;
+            }
+            case 3:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
