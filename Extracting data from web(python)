@@ -1,0 +1,39 @@
+def extract_links(html):
+    links = []
+    start = 0
+    while True:
+        start_link = html.find('<a href=', start)
+        if start_link == -1:
+            break
+        start_quote = html.find('"', start_link)
+        end_quote = html.find('"', start_quote + 1)
+        url = html[start_quote + 1:end_quote]
+        links.append(url)
+        start = end_quote + 1
+    return links
+
+# Function to extract data from the HTML content of a page
+def extract_data_from_page(html):
+    start_title = html.find('<title>') + len('<title>')
+    end_title = html.find('</title>', start_title)
+    title = html[start_title:end_title]
+    
+    start_body = html.find('<body>') + len('<body>')
+    end_body = html.find('</body>', start_body)
+    body = html[start_body:end_body]
+    
+    return title, body
+
+# Main script
+# Extract links from the main page
+links = extract_links(main_html_content)
+
+# Simulate fetching and extracting data from the linked pages
+for link in links:
+    if link in page_html_contents:
+        page_html_content = page_html_contents[link]
+        title, body_content = extract_data_from_page(page_html_content)
+        print(f"Data from {link}:")
+        print(f"Title: {title}")
+        print(f"Body: {body_content}")
+        print()
